@@ -105,6 +105,18 @@ public class ReadUtil {
         playMusic(musicUrl.toString());
     }
 
+    //播放
+    public static void play2(String num){
+        new Thread(()->{
+            StringBuffer musicUrl = new StringBuffer();
+            musicUrl.append("music/");
+            musicUrl.append(num);
+            musicUrl.append(".wav");
+            //System.out.println(musicUrl.toString());
+            playMusic(musicUrl.toString());
+        }).start();
+    }
+
     /**
      * 可以播放wav格式的文件
      * @param url

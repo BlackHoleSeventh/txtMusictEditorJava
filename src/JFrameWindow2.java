@@ -1,10 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.io.InputStream;
 
 public class JFrameWindow2 extends JFrame{
@@ -18,6 +15,9 @@ public class JFrameWindow2 extends JFrame{
 
     int format_width = 800;
     int format_height = 800;
+
+
+    private static boolean writeBoolean = false;
 
     public static void createWindow() {
         // TODO Auto-generated method stub
@@ -97,7 +97,9 @@ public class JFrameWindow2 extends JFrame{
         this.add(jp2,BorderLayout.CENTER);
         this.add(jp3,BorderLayout.SOUTH);
 
-        //setListener(jb1, jb2, url, sleepTime);
+        setListener(jb1, jb2, text, sleepTime);
+
+        listenKeyPress(text);
 
         this.setTitle("TXT音乐播放器简谱制作器");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,30 +156,7 @@ public class JFrameWindow2 extends JFrame{
 
 
     //设置
-    public static void setListener(JButton jb1, JButton jb2, final JTextField url, final JTextField sleepTime){
-
-        //设置默认值
-        url.setText("D:\\txtmusic\\omrg100.txt");
-        sleepTime.setText("500");
-
-        url.addFocusListener(new FocusListener() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                //失去焦点执行的代码
-                try {
-                    int autoTime = Integer.parseInt(url.getText().replaceAll("\\D", ""));
-                    sleepTime.setText(String.valueOf(autoTime));
-                }catch (Exception e3){
-
-                }
-            }
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                //获得焦点执行的代码
-            }
-        });
-
+    public static void setListener(JButton jb1, JButton jb2, final JEditorPane text, final JTextField sleepTime){
 
 
         jb1.addActionListener(new ActionListener() {
@@ -187,31 +166,16 @@ public class JFrameWindow2 extends JFrame{
                 new Thread(){
                     @Override
                     public void run() {
-                        //清空播放缓存数组
-                        ReadUtil.file.clear();
-                        //暂停记录从0开始
-                        ReadUtil.current = 0;
-
-                        ReadUtil.isPlay = true;
-                        String urlStr = url.getText();
-                        String sleepTimeStr = sleepTime.getText();
-
-                        int time = 500;
-                        try {
-                            time = Integer.parseInt(sleepTimeStr);
-                        }catch (Exception e1){
-                            time = 500;
+                        writeBoolean = true;
+                        while (writeBoolean){
+                            text.requestFocus();
+                            KeyUtil.pressKongGe();
+                            try {
+                                Thread.sleep(100L);
+                            } catch (InterruptedException e1) {
+                                e1.printStackTrace();
+                            }
                         }
-
-
-                        //如果间隔时间太长或为负数
-                        if(time<0 || time> 5000){
-                            time = 500;
-                        }
-
-                        ReadUtil.sleepTime = time;
-                        ReadUtil.readTxt(urlStr);
-
                     }
                 }.start();
 
@@ -224,11 +188,30 @@ public class JFrameWindow2 extends JFrame{
                 new Thread() {
                     @Override
                     public void run() {
-                        ReadUtil.isPlay = false;
-                        ReadUtil.current = 0;
+                        writeBoolean = false;
                     }
                 }.start();
             }
         });
+    }
+
+
+
+    private void listenKeyPress(JEditorPane text){
+        // 添加键盘监听
+        text.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                if (keyCode == KeyEvent.VK_NUMPAD1) {
+                    ReadUtil.play2("z1");
+                }else if(keyCode == KeyEvent.VK_NUMPAD2){
+                    ReadUtil.play2("z2");
+                }else if(keyCode == KeyEvent.VK_NUMPAD3){
+                    ReadUtil.play2("z3");
+                }
+            }
+        });
+
     }
 }
