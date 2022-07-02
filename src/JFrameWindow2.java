@@ -6,25 +6,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 
-public class JFrameWindow extends JFrame{
+public class JFrameWindow2 extends JFrame{
     // 定义组件
     JPanel jp1, jp2, jp3;
     JLabel jlb1, jlb2;
     JButton jb1, jb2, jb3, jb4;
-    JTextField url;
+    JTextPane url;
     JTextField sleepTime;
 
     public static void createWindow() {
         // TODO Auto-generated method stub
-        JFrameWindow d1 = new JFrameWindow();
+        JFrameWindow2 d1 = new JFrameWindow2();
 
     }
 
     // 构造函数
-    public JFrameWindow() {
+    public JFrameWindow2() {
 
         try {
             InputStream imgIS = this.getClass().getResourceAsStream("z.png");
@@ -44,16 +42,13 @@ public class JFrameWindow extends JFrame{
         jp2 = new JPanel();
         jp3 = new JPanel();
 
-        jlb1 = new JLabel("文件地址");
-        jlb2 = new JLabel("播放间隔");
+        jlb1 = new JLabel("简谱内容");
 
-        jb1 = new JButton("播放");
+        jb1 = new JButton("开始");
         jb2 = new JButton("停止");
+        jb3 = new JButton("试听");
 
-        jb3 = new JButton("暂停");
-        jb4 = new JButton("继续");
-
-        url = new JTextField(30);
+        url = new JTextPane();
         sleepTime = new JTextField(30);
 
 
@@ -61,26 +56,22 @@ public class JFrameWindow extends JFrame{
         url.setFont(font);
         sleepTime.setFont(font);
         jlb1.setFont(font);
-        jlb2.setFont(font);
         jb1.setFont(font);
         jb2.setFont(font);
         jb3.setFont(font);
-        jb4.setFont(font);
 
         GridLayout gl = new GridLayout(3, 1);
         this.setLayout(gl);
 
         // 加入各个组件
         jp1.add(jlb1);
-        jp1.add(url);
 
-        jp2.add(jlb2);
-        jp2.add(sleepTime);
+        jp2.add(url);
+
 
         jp3.add(jb1);
         jp3.add(jb2);
         jp3.add(jb3);
-        jp3.add(jb4);
 
 
         // 加入到JFrame
@@ -88,8 +79,7 @@ public class JFrameWindow extends JFrame{
         this.add(jp2);
         this.add(jp3);
 
-        setListener(jb1, jb2, url, sleepTime);
-        setListener2(jb3, jb4, sleepTime);
+        //setListener(jb1, jb2, url, sleepTime);
 
         this.setTitle("TXT音乐播放器简谱制作器");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

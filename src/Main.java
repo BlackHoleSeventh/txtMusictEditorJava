@@ -9,7 +9,7 @@ public class Main {
 
 
     public static void play(){
-       JFrameWindow.createWindow();
+       JFrameWindow2.createWindow();
     }
 
     public static void playM1(){
