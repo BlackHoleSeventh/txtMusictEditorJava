@@ -8,7 +8,7 @@ public class JFrameWindow2 extends JFrame{
     // 定义组件
     JPanel jp1, jp2, jp3;
     JLabel jlb1, jlb2;
-    JButton jb1, jb2, jb3, jb4;
+    JButton jb1, jb2, jb3, jb4 ,jb5;
     JScrollPane scrollPane;
     JEditorPane text;
     JTextField sleepTime;
@@ -16,13 +16,16 @@ public class JFrameWindow2 extends JFrame{
     int format_width = 800;
     int format_height = 800;
 
+    private static StringBuffer sb = new StringBuffer();
+
 
     private static boolean writeBoolean = false;
+
+    private static boolean needPressAgain = true;
 
     public static void createWindow() {
         // TODO Auto-generated method stub
         JFrameWindow2 d1 = new JFrameWindow2();
-
     }
 
     // 构造函数
@@ -47,6 +50,7 @@ public class JFrameWindow2 extends JFrame{
 
         jb1 = new JButton("开始录制");
         jb2 = new JButton("停止录制");
+        jb5 = new JButton("清屏");
         jb3 = new JButton("开始试听");
         jb4 = new JButton("停止试听");
 
@@ -56,6 +60,7 @@ public class JFrameWindow2 extends JFrame{
         text = new JEditorPane();
         text.setSize(800,800);
         text.setPreferredSize(new Dimension(800,850));
+        text.setEditable(false);
 
 
         scrollPane = new JScrollPane(text);
@@ -73,6 +78,7 @@ public class JFrameWindow2 extends JFrame{
         jlb1.setFont(font);
         jb1.setFont(font);
         jb2.setFont(font);
+        jb5.setFont(font);
         jb3.setFont(font);
         jb4.setFont(font);
 
@@ -89,6 +95,7 @@ public class JFrameWindow2 extends JFrame{
         //第三行
         jp3.add(jb1);
         jp3.add(jb2);
+        jp3.add(jb5);
         jp3.add(jb3);
         jp3.add(jb4);
 
@@ -99,42 +106,26 @@ public class JFrameWindow2 extends JFrame{
 
         setListener(jb1, jb2, text, sleepTime);
 
+        setListener2(jb5);
+
         listenKeyPress(text);
 
         this.setTitle("TXT音乐播放器简谱制作器");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
-
     }
 
-    //暂停与继续
-    private void setListener2(JButton jb3, JButton jb4, final JTextField sleepTime) {
-        jb3.addActionListener(new ActionListener() {
+    //清屏
+    private void setListener2(JButton jb5) {
+        jb5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Thread(){
                     @Override
                     public void run() {
-                        ReadUtil.isPlay = false;
-                        ReadUtil.canCon = true;
-                    }
-                }.start();
-            }
-        });
-
-        jb4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        if(ReadUtil.canCon) {
-                            ReadUtil.canCon = false;
-                            ReadUtil.isPlay = true;
-                            ReadUtil.sleepTime = getSleepTime(sleepTime.getText());
-                            ReadUtil.continueMusic();
-                        }
+                        sb = new StringBuffer();
+                        text.setText(sb.toString());
                     }
                 }.start();
             }
@@ -169,7 +160,9 @@ public class JFrameWindow2 extends JFrame{
                         writeBoolean = true;
                         while (writeBoolean){
                             text.requestFocus();
-                            KeyUtil.pressKongGe();
+                            sb.append(" ");
+                            text.setText(sb.toString());
+
                             try {
                                 Thread.sleep(100L);
                             } catch (InterruptedException e1) {
@@ -198,19 +191,48 @@ public class JFrameWindow2 extends JFrame{
 
 
     private void listenKeyPress(JEditorPane text){
+
         // 添加键盘监听
         text.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                if (keyCode == KeyEvent.VK_NUMPAD1) {
-                    ReadUtil.play2("z1");
-                }else if(keyCode == KeyEvent.VK_NUMPAD2){
-                    ReadUtil.play2("z2");
-                }else if(keyCode == KeyEvent.VK_NUMPAD3){
-                    ReadUtil.play2("z3");
+
+
+                    switch (keyCode) {
+                        case KeyEvent.VK_NUMPAD1: ReadUtil.play2("z1");sb.append("1");break;
+                        case KeyEvent.VK_NUMPAD2: ReadUtil.play2("z2");sb.append("2");break;
+                        case KeyEvent.VK_NUMPAD3: ReadUtil.play2("z3");sb.append("3");break;
+                        case KeyEvent.VK_NUMPAD4: ReadUtil.play2("z4");sb.append("4");break;
+                        case KeyEvent.VK_NUMPAD5: ReadUtil.play2("z5");sb.append("5");break;
+                        case KeyEvent.VK_NUMPAD6: ReadUtil.play2("z6");sb.append("6");break;
+                        case KeyEvent.VK_NUMPAD7: ReadUtil.play2("z7");sb.append("7");break;
+                        case KeyEvent.VK_NUMPAD8: ReadUtil.play2("g1");sb.append("[1]");break;
+                        case KeyEvent.VK_NUMPAD9: ReadUtil.play2("g2");sb.append("[2]");break;
+                        case 107: ReadUtil.play2("g3");sb.append("[3]");break;
+
+                        //如果键盘锁被按下，就重新锁上
+                        case KeyEvent.VK_NUM_LOCK:
+                            Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, true);
+                            ReadUtil.play2("g4");sb.append("[4]");
+                            break;
+
+                        case KeyEvent.VK_DIVIDE: ReadUtil.play2("g5");sb.append("[5]");break;
+                        case KeyEvent.VK_MULTIPLY: ReadUtil.play2("g6");sb.append("[6]");break;
+                        case KeyEvent.VK_SUBTRACT: ReadUtil.play2("g7");sb.append("[7]");break;
+                        case KeyEvent.VK_ENTER: ReadUtil.play2("d7");sb.append("(7)");break;
+                        case KeyEvent.VK_DECIMAL: ReadUtil.play2("d6");sb.append("(6)");break;
+                        case KeyEvent.VK_NUMPAD0: ReadUtil.play2("d5");sb.append("(5)");break;
+                        case KeyEvent.VK_UP: ReadUtil.play2("d4");sb.append("(4)");break;
+                        case KeyEvent.VK_RIGHT: ReadUtil.play2("d3");sb.append("(3)");break;
+                        case KeyEvent.VK_DOWN: ReadUtil.play2("d2");sb.append("(2)");break;
+                        case KeyEvent.VK_LEFT: ReadUtil.play2("d1");sb.append("(1)");break;
+
+                    }
+
+                    text.setText(sb.toString());
                 }
-            }
+
         });
 
     }
