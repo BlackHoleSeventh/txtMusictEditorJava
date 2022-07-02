@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.io.InputStream;
 
@@ -8,7 +9,7 @@ public class JFrameWindow2 extends JFrame{
     // 定义组件
     JPanel jp1, jp2, jp3;
     JLabel jlb1, jlb2;
-    JButton jb1, jb2, jb3, jb4 ,jb5;
+    JButton jb1, jb2, jb3, jb4 ,jb5, jb6;
     JScrollPane scrollPane;
     JEditorPane text;
     JTextField sleepTime;
@@ -51,6 +52,7 @@ public class JFrameWindow2 extends JFrame{
         jb1 = new JButton("开始录制");
         jb2 = new JButton("停止录制");
         jb5 = new JButton("清屏");
+        jb6 = new JButton("复制到剪贴板");
         jb3 = new JButton("开始试听");
         jb4 = new JButton("停止试听");
 
@@ -79,6 +81,7 @@ public class JFrameWindow2 extends JFrame{
         jb1.setFont(font);
         jb2.setFont(font);
         jb5.setFont(font);
+        jb6.setFont(font);
         jb3.setFont(font);
         jb4.setFont(font);
 
@@ -98,6 +101,7 @@ public class JFrameWindow2 extends JFrame{
         jp3.add(jb5);
         jp3.add(jb3);
         jp3.add(jb4);
+        jp3.add(jb6);
 
         // 加入到JFrame
         this.add(jp1,BorderLayout.NORTH);
@@ -106,7 +110,7 @@ public class JFrameWindow2 extends JFrame{
 
         setListener(jb1, jb2, text, sleepTime);
 
-        setListener2(jb5);
+        setListener2(jb5, jb6);
 
         listenKeyPress(text);
 
@@ -117,7 +121,7 @@ public class JFrameWindow2 extends JFrame{
     }
 
     //清屏
-    private void setListener2(JButton jb5) {
+    private void setListener2(JButton jb5,JButton jb6) {
         jb5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,6 +130,19 @@ public class JFrameWindow2 extends JFrame{
                     public void run() {
                         sb = new StringBuffer();
                         text.setText(sb.toString());
+                        text.requestFocus();
+                    }
+                }.start();
+            }
+        });
+
+        jb6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread(){
+                    @Override
+                    public void run() {
+                        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(sb.toString()),null);
                     }
                 }.start();
             }
@@ -182,6 +199,7 @@ public class JFrameWindow2 extends JFrame{
                     @Override
                     public void run() {
                         writeBoolean = false;
+                        text.requestFocus();
                     }
                 }.start();
             }
