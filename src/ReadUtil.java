@@ -25,6 +25,31 @@ public class ReadUtil {
 
     public static ArrayList<Integer> file = new ArrayList();
 
+    public static void readCharArray(char[] chars){
+        try {
+            //读取
+            for (int i= 0; i<chars.length; i++ ){
+                file.add(Character.hashCode(chars[i]));
+            }
+
+            //播放
+            for(int o : file){
+                if(isPlay){
+                    String s = String.valueOf((char)o);
+                    current++ ;
+                    choose(s);
+                }else{
+                    break;
+                }
+            }
+
+
+
+        } catch (Exception e) {
+            //System.out.println("没有找到目标txt文件！");
+            //e.printStackTrace();
+        }
+    }
 
     public static void readTxt(String txtUrl){
         try {

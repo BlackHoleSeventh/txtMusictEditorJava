@@ -112,12 +112,52 @@ public class JFrameWindow2 extends JFrame{
 
         setListener2(jb5, jb6);
 
+        setListener3(jb3, jb4);
+
         listenKeyPress(text);
 
         this.setTitle("TXT音乐播放器简谱制作器");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
+    }
+
+    //播放与停止播放
+    private void setListener3(JButton jb3,JButton jb4) {
+        jb3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread(){
+                    @Override
+                    public void run() {
+
+                        char[] chars = sb.toString().toCharArray();
+                        //清空播放缓存数组
+                        ReadUtil.file.clear();
+                        //暂停记录从0开始
+                        ReadUtil.current = 0;
+                        ReadUtil.isPlay = true;
+                        //间隔时间固定100
+                        ReadUtil.sleepTime = 100;
+                        ReadUtil.readCharArray(chars);
+
+                    }
+                }.start();
+            }
+        });
+
+        jb4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread(){
+                    @Override
+                    public void run() {
+                        ReadUtil.isPlay = false;
+                        ReadUtil.current = 0;
+                    }
+                }.start();
+            }
+        });
     }
 
     //清屏
@@ -142,6 +182,11 @@ public class JFrameWindow2 extends JFrame{
                 new Thread(){
                     @Override
                     public void run() {
+                        //不知道为什么按numlock会出现这样的，需要处理
+                        if(sb.toString().contains("[4][4][4]")){
+                            sb = new StringBuffer(sb.toString().replaceAll("\\[4\\]\\[4\\]\\[4\\]","\\[4\\]"));
+                        }
+                        text.setText(sb.toString());
                         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(sb.toString()),null);
                     }
                 }.start();
