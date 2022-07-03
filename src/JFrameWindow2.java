@@ -37,31 +37,31 @@ public class JFrameWindow2 extends JFrame{
             this.setIconImage(image);
         }catch (Exception e){ }
         setResizable(false);
-        setLocation(getToolkit().getScreenSize().width/4, getToolkit().getScreenSize().height/100);
-        setSize(1000, 1000);
+        setLocation(getToolkit().getScreenSize().width/6, getToolkit().getScreenSize().height/100);
+        setSize(1200, 1000);
 
         jp1 = new JPanel();
         //jp1.setSize(format_width,500);
         jp2 = new JPanel();
         //jp2.setSize(800,800);
         jp3 = new JPanel();
-        //jp3.setSize(format_width,500);
+        //jp3.setSize(1200,500);
 
         jlb1 = new JLabel("简谱内容");
 
-        jb1 = new JButton("开始录制");
-        jb2 = new JButton("停止录制");
-        jb5 = new JButton("清屏");
-        jb6 = new JButton("复制到剪贴板");
-        jb3 = new JButton("开始试听");
-        jb4 = new JButton("停止试听");
+        jb1 = new JButton("开始录制(z)");
+        jb2 = new JButton("停止录制(x)");
+        jb5 = new JButton("清屏(b)");
+        jb6 = new JButton("复制到剪贴板(space)");
+        jb3 = new JButton("开始试听(c)");
+        jb4 = new JButton("停止试听(v)");
 
 
 
 
         text = new JEditorPane();
-        text.setSize(800,800);
-        text.setPreferredSize(new Dimension(800,850));
+        //text.setSize(1000,800);
+        text.setPreferredSize(new Dimension(900,870));
         text.setEditable(false);
 
 
@@ -98,10 +98,10 @@ public class JFrameWindow2 extends JFrame{
         //第三行
         jp3.add(jb1);
         jp3.add(jb2);
-        jp3.add(jb5);
         jp3.add(jb3);
         jp3.add(jb4);
         jp3.add(jb6);
+        jp3.add(jb5);
 
         // 加入到JFrame
         this.add(jp1,BorderLayout.NORTH);
@@ -186,6 +186,15 @@ public class JFrameWindow2 extends JFrame{
                         if(sb.toString().contains("[4][4][4]")){
                             sb = new StringBuffer(sb.toString().replaceAll("\\[4\\]\\[4\\]\\[4\\]","\\[4\\]"));
                         }
+                        //如果还有
+                        if(sb.toString().contains("[4][4]")){
+                            sb = new StringBuffer(sb.toString().replaceAll("\\[4\\]\\[4\\]","\\[4\\]"));
+                        }
+                        //如果还有
+                        if(sb.toString().contains("[4][4][4][4]")){
+                            sb = new StringBuffer(sb.toString().replaceAll("\\[4\\]\\[4\\]\\[4\\]\\[4\\]","\\[4\\]"));
+                        }
+
                         text.setText(sb.toString());
                         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(sb.toString()),null);
                     }
@@ -315,6 +324,16 @@ public class JFrameWindow2 extends JFrame{
                         case 53: ReadUtil.play2("bg5");sb.append("[#5]");break;
                         case 54: ReadUtil.play2("bg6");sb.append("[#6]");break;
                         case 55: ReadUtil.play2("g7");sb.append("[7]");break;
+
+
+                        //按空格复制到剪贴板等
+                        case KeyEvent.VK_Z: jb1.doClick(); break;
+                        case KeyEvent.VK_X: jb2.doClick(); break;
+                        case KeyEvent.VK_B: jb5.doClick(); break;
+                        case KeyEvent.VK_SPACE: jb6.doClick(); break;
+                        case KeyEvent.VK_C: jb3.doClick(); break;
+                        case KeyEvent.VK_V: jb4.doClick(); break;
+
 
 
                     }
