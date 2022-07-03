@@ -291,6 +291,32 @@ public class JFrameWindow2 extends JFrame{
                         case KeyEvent.VK_DOWN: ReadUtil.play2("d2");sb.append("(2)");break;
                         case KeyEvent.VK_LEFT: ReadUtil.play2("d1");sb.append("(1)");break;
 
+                        case KeyEvent.VK_A: ReadUtil.play2("bd1");sb.append("(#1)");break;
+                        case KeyEvent.VK_S: ReadUtil.play2("bd2");sb.append("(#2)");break;
+                        case KeyEvent.VK_D: ReadUtil.play2("d3");sb.append("(3)");break;
+                        case KeyEvent.VK_F: ReadUtil.play2("bd4");sb.append("(#4)");break;
+                        case KeyEvent.VK_G: ReadUtil.play2("bd5");sb.append("(#5)");break;
+                        case KeyEvent.VK_H: ReadUtil.play2("bd6");sb.append("(#6)");break;
+                        case KeyEvent.VK_J: ReadUtil.play2("d7");sb.append("(7)");break;
+
+                        case KeyEvent.VK_Q: ReadUtil.play2("bz1");sb.append("#1");break;
+                        case KeyEvent.VK_W: ReadUtil.play2("bz2");sb.append("#2");break;
+                        case KeyEvent.VK_E: ReadUtil.play2("z3");sb.append("3");break;
+                        case KeyEvent.VK_R: ReadUtil.play2("bz4");sb.append("#4");break;
+                        case KeyEvent.VK_T: ReadUtil.play2("bz5");sb.append("#5");break;
+                        case KeyEvent.VK_Y: ReadUtil.play2("bz6");sb.append("#6");break;
+                        case KeyEvent.VK_U: ReadUtil.play2("z7");sb.append("7");break;
+
+
+                        case 49: ReadUtil.play2("bg1");sb.append("[#1]");break;
+                        case 50: ReadUtil.play2("bg2");sb.append("[#2]");break;
+                        case 51: ReadUtil.play2("g3");sb.append("[3]");break;
+                        case 52: ReadUtil.play2("bg4");sb.append("[#4]");break;
+                        case 53: ReadUtil.play2("bg5");sb.append("[#5]");break;
+                        case 54: ReadUtil.play2("bg6");sb.append("[#6]");break;
+                        case 55: ReadUtil.play2("g7");sb.append("[7]");break;
+
+
                     }
 
                     text.setText(sb.toString());
