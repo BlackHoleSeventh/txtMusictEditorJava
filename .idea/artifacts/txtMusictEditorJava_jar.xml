@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="txtMusictEditorJava:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/txtMusictEditorJava_jar</output-path>
+    <root id="archive" name="txtMusictEditorJava.jar">
+      <element id="module-output" name="txtMusictEditorJava" />
+    </root>
+  </artifact>
+</component>
